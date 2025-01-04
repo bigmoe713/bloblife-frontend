@@ -8,30 +8,26 @@ import { CountdownTimer } from './CountdownTimer';
 const NFTRY_TYPE = '0x5fb957b59e6b093c17eb3f0ca0a3e8762530244f1a22bc1c1b8d37e743e3450e::nftry::NFTRY';
 export default function WalletContent() {
   const { currentAccount } = useWalletKit();
-  const [hasAccess, setHasAccess] = useState(false);
+  const [hasAccess, setHasAccess] = useState(true);
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
+    // Temporarily disabled NFT checking
+    /*
     async function checkAccess() {
       if (currentAccount) {
         setIsChecking(true);
         try {
           // Dev wallet whitelist check
-          if (currentAccount.address === '0x44b492576cee496211d375fbb71405af447f0dc31fd909b25a53fdc70e67c4ad') {
+          if (currentAccount.address === '0x44b...') {
             setHasAccess(true);
             setIsChecking(false);
             return;
           }
           // Regular NFTRY check
           const provider = new SuiClient({ url: NETWORK_CONFIG.rpcUrl });
-          const objects = await provider.getOwnedObjects({
-            owner: currentAccount.address,
-            options: { showType: true }
-          });
-          
-          setHasAccess(objects.data.some(obj => 
-            obj.data?.type?.includes(NFTRY_TYPE)
-          ));
+          const objects = await provider.getOwnedObjects(...);
+          setHasAccess(objects.data.some(...));
         } catch (error) {
           console.error('Access check failed:', error);
           setHasAccess(false);
@@ -40,6 +36,7 @@ export default function WalletContent() {
       }
     }
     checkAccess();
+    */
   }, [currentAccount]);
 
   if (!currentAccount) {
