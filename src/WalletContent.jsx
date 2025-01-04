@@ -72,7 +72,7 @@ export function WalletContent() {
             position: 'absolute',
             top: '30px',
             left: '40px',
-            width: '200px',
+            width: '280px',
             zIndex: 1000
           }}
         />
