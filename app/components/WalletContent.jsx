@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { SuiClient } from '@mysten/sui.js/client';
 import { NETWORK_CONFIG } from './config';
 import '../styles/WalletContent.css';
-import { CountdownTimer } from './CountdownTimer.jsx';
+import { CountdownTimer } from './CountdownTimer';
 
 const NFTRY_TYPE = '0x5fb957b59e6b093c17eb3f0ca0a3e8762530244f1a22bc1c1b8d37e743e3450e::nftry::NFTRY';
 export default function WalletContent() {
@@ -24,8 +24,14 @@ export default function WalletContent() {
           }
           // Regular NFTRY check
           const provider = new SuiClient({ url: NETWORK_CONFIG.rpcUrl });
-          const objects = await provider.getOwnedObjects(currentAccount.address);
-          setHasAccess(objects.some(obj => obj.type.includes(NFTRY_TYPE)));
+          const objects = await provider.getOwnedObjects({
+            owner: currentAccount.address,
+            options: { showType: true }
+          });
+          
+          setHasAccess(objects.data.some(obj => 
+            obj.data?.type?.includes(NFTRY_TYPE)
+          ));
         } catch (error) {
           console.error('Access check failed:', error);
           setHasAccess(false);
