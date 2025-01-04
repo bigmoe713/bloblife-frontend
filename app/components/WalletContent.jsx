@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { SuiClient } from '@mysten/sui.js/client';
 import { NETWORK_CONFIG } from './config';
 import '../styles/WalletContent.css';
-import { CountdownTimer } from './CountdownTimer';
+import CountdownTimer from './countdowntimer.jsx';
 
 const NFTRY_TYPE = '0x5fb957b59e6b093c17eb3f0ca0a3e8762530244f1a22bc1c1b8d37e743e3450e::nftry::NFTRY';
 export default function WalletContent() {
