@@ -1,6 +1,10 @@
 'use client';
-import React from 'react';
+import WalletContent from './components/WalletContent.jsx';
 
-export default function Home(): React.ReactElement {
-  return <h1>Welcome to Bloblife!</h1>
+export default function Home() {
+  return (
+    <main>
+      <WalletContent />
+    </main>
+  );
 }

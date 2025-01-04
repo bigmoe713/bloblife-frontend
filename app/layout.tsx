@@ -1,4 +1,5 @@
-import React from 'react'
+'use client';
+import { WalletKitProvider } from '@mysten/wallet-kit';
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -7,7 +8,11 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <WalletKitProvider>
+          {children}
+        </WalletKitProvider>
+      </body>
     </html>
-  )
+  );
 }
