@@ -4,7 +4,7 @@ export function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState('');
 
   useEffect(() => {
-    const targetDate = new Date('2025-01-24T00:00:00Z'); // set your target date
+    const targetDate = new Date('2025-01-25T00:00:00Z'); // set your target date
 
     const interval = setInterval(() => {
       const now = new Date();
