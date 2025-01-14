@@ -1,4 +1,4 @@
-// File: C:\Users\pmdro\wallet-gated-site\app\page.tsx
+// File: C:\Users\pmdro\bloblife-frontend\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,42 +1,49 @@
 import { ConnectButton, useWalletKit } from '@mysten/wallet-kit';
 import { useState, useEffect } from 'react';
 import { SuiClient } from '@mysten/sui.js/client';
-import { NETWORK_CONFIG } from './config';
+import { NETWORK_CONFIG, NFTRY_TYPE } from '../config';
 import '../styles/WalletContent.css';
 import { CountdownTimer } from './CountdownTimer';
 
-const NFTRY_TYPE = '0x5fb957b59e6b093c17eb3f0ca0a3e8762530244f1a22bc1c1b8d37e743e3450e::nftry::NFTRY';
 export default function WalletContent() {
   const { currentAccount } = useWalletKit();
-  const [hasAccess, setHasAccess] = useState(true);
-  const [isChecking, setIsChecking] = useState(true);
+  const [hasAccess, setHasAccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
-    // Temporarily disabled NFT checking
-    /*
     async function checkAccess() {
-      if (currentAccount) {
-        setIsChecking(true);
-        try {
-          // Dev wallet whitelist check
-          if (currentAccount.address === '0x44b...') {
-            setHasAccess(true);
-            setIsChecking(false);
-            return;
-          }
-          // Regular NFTRY check
-          const provider = new SuiClient({ url: NETWORK_CONFIG.rpcUrl });
-          const objects = await provider.getOwnedObjects(...);
-          setHasAccess(objects.data.some(...));
-        } catch (error) {
-          console.error('Access check failed:', error);
-          setHasAccess(false);
+      if (!currentAccount) return;
+      setIsLoading(true);
+      try {
+        // Dev wallet override
+        if (currentAccount.address === '0x44b492576cee496211d375fbb71405af447f0dc31fd909b25a53fdc70e67c4ad') {
+          setHasAccess(true);
+          return;
         }
-        setIsChecking(false);
+  
+        const provider = new SuiClient({ url: NETWORK_CONFIG.fullnode });
+        
+        // Get transfer receipt
+        const receiptId = '0x9e722e13dd3c633bbc704bb5371c406353acef08d3b52b08a05db73da7351f6e';
+        const receipt = await provider.getObject({
+          id: receiptId,
+          options: { showContent: true }
+        });
+        
+        console.log('Transfer receipt:', receipt);
+        
+        // Check if receipt matches wallet
+        const hasAccess = receipt.data?.content?.fields?.owner === currentAccount.address;
+        setHasAccess(hasAccess);
+      } catch (err) {
+        console.error('Receipt check failed:', err);
+        setHasAccess(false);
+      } finally {
+        setIsLoading(false);
       }
     }
     checkAccess();
-    */
   }, [currentAccount]);
 
   if (!currentAccount) {
@@ -114,10 +121,10 @@ export default function WalletContent() {
         <ConnectButton />
       </div>
       <div className='reject-message reject-message-top'>
-        Sorry, you need a NFTRY Pass to enter the BlobLife ecosystem!
+        ACCESS DENIED!
       </div>
       <div className='reject-message reject-message-bottom'>
-        Get your NFTRY Pass to unlock exclusive content!
+        ACCESS DENIED! 
       </div>
     </div>
   );
