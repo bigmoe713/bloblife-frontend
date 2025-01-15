@@ -1,50 +1,34 @@
-import { ConnectButton, useWalletKit } from '@mysten/wallet-kit';
-import { useState, useEffect } from 'react';
-import { SuiClient } from '@mysten/sui.js/client';
-import { NETWORK_CONFIG, NFTRY_TYPE } from '../config';
-import '../styles/WalletContent.css';
-import { CountdownTimer } from './CountdownTimer';
-
-export default function WalletContent() {
-  const { currentAccount } = useWalletKit();
-  const [hasAccess, setHasAccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
 
-  useEffect(() => {
-    async function checkAccess() {
-      if (!currentAccount) return;
-      setIsLoading(true);
-      try {
-        // Dev wallet override
-        if (currentAccount.address === '0x44b492576cee496211d375fbb71405af447f0dc31fd909b25a53fdc70e67c4ad') {
-          setHasAccess(true);
-          return;
-        }
+
+  import { ConnectButton, useWalletKit } from '@mysten/wallet-kit';
+  import { useState, useEffect } from 'react';
+  import { checkWhitelist } from './whitelist'; // Add this import
+  import '../styles/WalletContent.css';
+  import { CountdownTimer } from './CountdownTimer';
   
-        const provider = new SuiClient({ url: NETWORK_CONFIG.fullnode });
-        
-        // Get transfer receipt
-        const receiptId = '0x9e722e13dd3c633bbc704bb5371c406353acef08d3b52b08a05db73da7351f6e';
-        const receipt = await provider.getObject({
-          id: receiptId,
-          options: { showContent: true }
-        });
-        
-        console.log('Transfer receipt:', receipt);
-        
-        // Check if receipt matches wallet
-        const hasAccess = receipt.data?.content?.fields?.owner === currentAccount.address;
-        setHasAccess(hasAccess);
-      } catch (err) {
-        console.error('Receipt check failed:', err);
-        setHasAccess(false);
-      } finally {
-        setIsLoading(false);
+  export default function WalletContent() {
+    const { currentAccount } = useWalletKit();
+    const [hasAccess, setHasAccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+  
+    useEffect(() => {
+      async function checkAccess() {
+        if (!currentAccount) return;
+        setIsLoading(true);
+        try {
+          // Use our new whitelist check
+          const hasAccess = checkWhitelist(currentAccount.address);
+          setHasAccess(hasAccess);
+        } catch (err) {
+          console.error('Access check failed:', err);
+          setHasAccess(false);
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
-    checkAccess();
-  }, [currentAccount]);
+      checkAccess();
+    }, [currentAccount]);
 
   if (!currentAccount) {
     return (
