@@ -2,8 +2,10 @@
 export const AUTHORIZED_ADDRESSES = [
     // Dev wallet
     '0x44b492576cee496211d375fbb71405af447f0dc31fd909b25a53fdc70e67c4ad',
-    // Current holders (Jan 15, 2025)
 
+    // Current holders (Jan 15, 2025)
+    '0xf0386bbd11524e833c124769b1e481b714c274bdddc1a2af5d26b10a55ab99fa',
+    '0xe228b0641a9ffe5ea1c962cb1d4c20e96b5469816e57cdcb87a6cc7b00c280ef',
     '0xcda829838dc36d1010001e28f5734cd7ec460d6d1a4894a477c0cc32faeba269',
 
     '0x5c82a1d47bf86befc93b57a760994fe8bf82129b669e4f14f0ac5e6fd5c4ecda',
