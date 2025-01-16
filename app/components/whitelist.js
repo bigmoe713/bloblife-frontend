@@ -1,7 +1,7 @@
 // whitelist.js
 export const AUTHORIZED_ADDRESSES = [
     // Dev wallet
-    '0x44b492576cee496211d375fbb71405af447f0dc31fd909b25a53fdc70e67c4ad',
+    "0x44b492576cee496211d375fbb71405af447f0dc31fd909b25a53fdc70e67c4ad",
 
     // Current holders (Jan 15, 2025)
     '0xf0386bbd11524e833c124769b1e481b714c274bdddc1a2af5d26b10a55ab99fa',
@@ -9,7 +9,8 @@ export const AUTHORIZED_ADDRESSES = [
     '0xcda829838dc36d1010001e28f5734cd7ec460d6d1a4894a477c0cc32faeba269',
     '0xa8714670b9a16c96f3a14fbc575a752eb7b4770e4bbac0ac6d0593111fa43112',
     '0x5c82a1d47bf86befc93b57a760994fe8bf82129b669e4f14f0ac5e6fd5c4ecda',
-         
+    '0x2d73657a1d8c83f0eea55abb3f27b3598996bb277c7c395d77d3f5af2b28a4b2',
+    '0x042bf495e53779fa5a0bd225bed847c2a600d31a3d98b810fe3d0ee8485cc39e' ,   
     "0x408d9599e6e6c6e3892d6ac95c9f483f4fd7a8997f806eec37be140606ac6413",
     
         "0xbce058cf2e4e178efd57bfd3bdecdd2c2670696c8dcc8b4f2a6c6b836949b726"
