@@ -36,7 +36,7 @@ const PARTNERS = [
     url: "https://deloreanlabs.com/"
   },
   {
-    name: "Tusky Tools",
+    name: "Tusky",
     logo: "/images/partners/tusky.png",
     description: "Own your data with decentralized storage, end-to-end encryption and a killer UX.",
     url: "https://app.tusky.io/connect"
