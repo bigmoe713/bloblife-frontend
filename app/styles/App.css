@@ -1,0 +1,142 @@
+/* App.css */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0F172A;
+  color: #F8FAFC;
+}
+
+.landing-page {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.top-nav {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 1.5rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #3B82F6;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.partner-directory {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.partner-card {
+  background: #1E293B;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.partner-logo {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  background: #334155;
+  padding: 1rem;
+}
+
+.partner-info h3 {
+  margin: 1rem 0 0.5rem;
+  color: #E2E8F0;
+  font-size: 1.25rem;
+}
+
+.partner-info p {
+  color: #94A3B8;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.refresh-button {
+  background: #3B82F6;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.refresh-button:hover {
+  background: #2563EB;
+}
+
+/* Wallet Kit Overrides */
+.wallet-kit-connect-button {
+  background: #3B82F6 !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+}
+
+.wallet-kit-connect-button:hover {
+  background: #2563EB !important;
+}
+
+@media (max-width: 768px) {
+  .partner-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

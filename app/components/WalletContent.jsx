@@ -1,34 +1,64 @@
+// components/WalletContent.jsx
+'use client';
+import { ConnectButton, useWalletKit } from '@mysten/wallet-kit';
+import { useState, useEffect } from 'react';
+import '../styles/App.css';
 
+const PARTNERS = [
+  {
+    name: "BlobLife Labs",
+    logo: "/images/partners/bloblife.png",
+    description: "Walrus Community Ecosystem Build",
+    url: "https://x.com/BlobLifeLabs"
+  },
+  {
+    name: "NFTRY Pass",
+    logo: "/images/partners/nftry.png",
+    description: "Your entry to all things BlobLife",
+    url: "https://www.tradeport.xyz/sui/collection/bloblifelabs-nftry-pass?bottomTab=trades&tab=items"
+  },
+  {
+    name: "Probably Nothing - Walrus #1",
+    logo: "/images/partners/walrus1.png",
+    description: "BlobLife's first Open Edition",
+    url: "https://www.tradeport.xyz/sui/collection/0x3b653bb66101a001ca088c852b7fb967691b0c181eb73414f0498344ff8c9f48?bottomTab=trades&tab=items"
+  },
+  {
+    name: "TradePort NFT Marketplace",
+    logo: "/images/partners/tradeport.png",
+    description: "Multichain NFT Marketplace and Developer APIs",
+    url: "https://www.tradeport.xyz/"
+  },
+  {
+    name: "DeLorean Labs",
+    logo: "/images/partners/delorean.png",
+    description: "Driving the future with $DMC and those who dare to change systems",
+    url: "https://deloreanlabs.com/"
+  },
+  {
+    name: "Tusky Tools",
+    logo: "/images/partners/tusky.png",
+    description: "Own your data with decentralized storage, end-to-end encryption and a killer UX.",
+    url: "https://app.tusky.io/connect"
+  },
+  {
+    name: "Walrus Sanke Game",
+    logo: "/images/partners/snake.png",
+    description: "The classic snake arcade game,reimagined with a walrus",
+    url: "https://5r36syjf7v90q55hqrl2fwhf4bk9zl424frr12fddbqhf7ikju.walrus.site/"
+  },
+  // Add more partners as needed...
+];
 
+export default function WalletContent() {
+  const { currentAccount } = useWalletKit();
+  const [hasAccess, setHasAccess] = useState(false);
+  const [forceCheck, setForceCheck] = useState(0);
 
-  import { ConnectButton, useWalletKit } from '@mysten/wallet-kit';
-  import { useState, useEffect } from 'react';
-  import { checkWhitelist } from './whitelist'; // Add this import
-  import '../styles/WalletContent.css';
-  import { CountdownTimer } from './CountdownTimer';
-  
-  export default function WalletContent() {
-    const { currentAccount } = useWalletKit();
-    const [hasAccess, setHasAccess] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-  
-    useEffect(() => {
-      async function checkAccess() {
-        if (!currentAccount) return;
-        setIsLoading(true);
-        try {
-          // Use our new whitelist check
-          const hasAccess = checkWhitelist(currentAccount.address);
-          setHasAccess(hasAccess);
-        } catch (err) {
-          console.error('Access check failed:', err);
-          setHasAccess(false);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      checkAccess();
-    }, [currentAccount]);
+  useEffect(() => {
+    // Grant access immediately when wallet connects
+    setHasAccess(!!currentAccount);
+  }, [currentAccount, forceCheck]);
 
   if (!currentAccount) {
     return (
@@ -36,15 +66,7 @@
         <img
           src='/images/background_bloblife.png'
           alt='Background'
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.2)',
-            maxWidth: '100%',
-            maxHeight: '100%',
-            objectFit: 'contain'
-          }}
+          className="background-image"
         />
         <div className='top-nav'>
           <ConnectButton />
@@ -52,64 +74,41 @@
       </div>
     );
   }
-  if (hasAccess) {
-    return (
-      <div className='countdown-page'>
-        <img 
-          src='/images/background_bloblife.png'
-          alt='BlobLife'
-          style={{
-            position: 'absolute',
-            top: '30px',
-            left: '40px', 
-            width: '280px',
-            zIndex: 1000
-          }}
-        />
-        <div className='top-nav'>
-          <ConnectButton />
-        </div>
-        <div className='countdown-circle'>
-          <CountdownTimer />
-        </div>
-        <div className='nft-container' style={{position: 'absolute', right: '50px', top: '63%'}}>
-          <a href='https://www.tradeport.xyz/sui/collection/0x3b653bb66101a001ca088c852b7fb967691b0c181eb73414f0498344ff8c9f48?tab=mint&bottomTab=trades&mintTokenId=9bf11e8f-4112-4a44-a12c-35816b90c7a9' target='_blank' rel='noopener noreferrer'>
-            <img 
-              src='/images/walrus1.webp'
-              alt='Walrus NFT'
-              style={{width: '200px', transform: 'scale(1.0)'}}
-            />
-          </a>
-          <div className=' probably-nothing' style={{marginTop: '2px', textAlign: 'center', fontSize: '24px', fontWeight: 700}}>probably nothing</div>
-<div className='shrug-bold' style={{textAlign: 'center', fontSize: '28px', fontWeight: 800}}> ¯\_(ツ)_/¯</div>
-        </div>
-      </div>
-    );
-  }
+
   return (
-    <div className='landing-page'>
-      <img
-        src='/images/background_bloblife.png'
-        alt='Background'
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%) scale(1.2)',
-          maxWidth: '100%',
-          maxHeight: '100%',
-          objectFit: 'contain'
-        }}
-      />
-      <div className='top-nav'>
+    <div className="partner-directory">
+      <div className="top-nav">
         <ConnectButton />
+        <button 
+          className="refresh-button"
+          onClick={() => setForceCheck(p => p + 1)}
+          title="Refresh connection status"
+        >
+          ↻ Recheck Access
+        </button>
       </div>
-      <div className='reject-message reject-message-top'>
-        ACCESS DENIED!
-      </div>
-      <div className='reject-message reject-message-bottom'>
-        ACCESS DENIED! 
+      
+      <div className="partner-grid">
+        {PARTNERS.map((partner) => (
+          <a
+            key={partner.name}
+            href={partner.url}
+            className="partner-card"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img 
+              src={partner.logo} 
+              alt={partner.name} 
+              className="partner-logo"
+            />
+            <div className="partner-info">
+              <h3>{partner.name}</h3>
+              <p>{partner.description}</p>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   );
-  }
+}
